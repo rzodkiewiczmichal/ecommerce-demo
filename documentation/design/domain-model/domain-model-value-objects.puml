@@ -1,0 +1,47 @@
+@startuml E-commerce Domain Model Value Objects
+' Value Objects
+package "Value Objects" {
+    class Money <<ValueObject>> {
+        - BigDecimal amount
+        - Currency currency
+    }
+
+    class Address <<ValueObject>> {
+        - String street
+        - String city
+        - String postalCode
+        - String country
+    }
+
+    class OrderLine <<ValueObject>> {
+        - ProductId productId
+        - int quantity
+        - Money priceAtOrder
+    }
+
+    class CartItem <<ValueObject>> {
+        - ProductId productId
+        - int quantity
+    }
+
+    enum OrderStatus <<ValueObject>> {
+        NEW
+        PAID
+        SHIPPED
+        DELIVERED
+        CANCELLED
+    }
+
+    enum PaymentStatus <<ValueObject>> {
+        PENDING
+        COMPLETED
+        FAILED
+    }
+
+    enum ShipmentStatus <<ValueObject>> {
+        PREPARING
+        SHIPPED
+        DELIVERED
+    }
+}
+@enduml

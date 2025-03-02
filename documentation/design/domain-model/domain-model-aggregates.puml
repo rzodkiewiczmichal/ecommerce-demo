@@ -1,0 +1,59 @@
+@startuml E-commerce Domain Model Aggregates
+
+' Entities and Aggregates
+package "Entities and Aggregates" {
+    class Order <<Entity>> <<AggregateRoot>> {
+        - OrderId id
+        - List<OrderLine> orderLines
+        - Money totalAmount
+        - OrderStatus status
+    }
+
+    class Customer <<Entity>> <<AggregateRoot>> {
+        - CustomerId id
+        - String name
+        - String email
+    }
+
+    class Product <<Entity>> <<AggregateRoot>> {
+        - ProductId id
+        - String name
+        - String description
+        - Money price
+    }
+
+    class Inventory <<Entity>> <<AggregateRoot>> {
+        - InventoryId id
+        - Map<ProductId, Integer> stock
+    }
+
+    class Cart <<Entity>> <<AggregateRoot>> {
+        - CartId id
+        - CustomerId customerId
+        - List<CartItem> items
+    }
+
+    class Payment <<Entity>> <<AggregateRoot>> {
+        - PaymentId id
+        - OrderId orderId
+        - Money amount
+        - PaymentStatus status
+    }
+
+    class Shipment <<Entity>> <<AggregateRoot>> {
+        - ShipmentId id
+        - OrderId orderId
+        - ShipmentStatus status
+    }
+}
+
+' Relationships
+Order "1" -- "1" Customer
+Order "1" -- "1" Payment
+Order "1" -- "1" Shipment
+
+Cart "1" -- "1" Customer
+
+Inventory "1" -- "0..*" Product
+
+@enduml
