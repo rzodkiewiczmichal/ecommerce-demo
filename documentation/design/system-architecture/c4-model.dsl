@@ -10,6 +10,7 @@ workspace {
             paymentProcessing = container "Payment Processing" "Handles payment transactions"
             shipping = container "Shipping" "Manages order shipment and tracking"
             messageBroker = container "Message Broker" "Handles asynchronous communication between services" "RabbitMQ"
+            database = container "Database" "Stores all e-commerce data" "MongoDB"
         }
         paymentGateway = softwareSystem "Payment Gateway" "Processes payments for orders"
         shippingProvider = softwareSystem "Shipping Provider" "Handles order delivery"
@@ -37,6 +38,14 @@ workspace {
         messageBroker -> paymentProcessing "Delivers relevant events"
         messageBroker -> shipping "Delivers relevant events"
         messageBroker -> inventoryManagement "Delivers relevant events"
+
+        orderManagement -> database "Reads from and writes to"
+        productCatalog -> database "Reads from and writes to"
+        customerManagement -> database "Reads from and writes to"
+        shoppingCart -> database "Reads from and writes to"
+        inventoryManagement -> database "Reads from and writes to"
+        paymentProcessing -> database "Reads from and writes to"
+        shipping -> database "Reads from and writes to"
     }
 
     views {
