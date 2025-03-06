@@ -9,11 +9,11 @@ workspace {
             inventoryManagement = container "Inventory Management" "Tracks product stock levels"
             paymentProcessing = container "Payment Processing" "Handles payment transactions"
             shipping = container "Shipping" "Manages order shipment and tracking"
+            messageBroker = container "Message Broker" "Handles asynchronous communication between services" "RabbitMQ"
         }
         paymentGateway = softwareSystem "Payment Gateway" "Processes payments for orders"
         shippingProvider = softwareSystem "Shipping Provider" "Handles order delivery"
 
-        # Relationships
         customer -> ecommerceSystem "Browses products, places orders, and manages account"
         customer -> productCatalog "Browses products"
         customer -> shoppingCart "Adds products to cart"
@@ -28,6 +28,15 @@ workspace {
         productCatalog -> inventoryManagement "Checks stock levels"
         shoppingCart -> productCatalog "Gets product information"
         orderManagement -> inventoryManagement "Updates stock levels"
+
+        orderManagement -> messageBroker "Publishes order events"
+        paymentProcessing -> messageBroker "Publishes payment events"
+        shipping -> messageBroker "Publishes shipping events"
+        inventoryManagement -> messageBroker "Publishes inventory events"
+        messageBroker -> orderManagement "Delivers relevant events"
+        messageBroker -> paymentProcessing "Delivers relevant events"
+        messageBroker -> shipping "Delivers relevant events"
+        messageBroker -> inventoryManagement "Delivers relevant events"
     }
 
     views {
