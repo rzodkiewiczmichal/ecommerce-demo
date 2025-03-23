@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Product",
+  "description": "A product aggregate from the Product Catalog bounded context.",
+  "type": "object",
+  "required": ["id", "name", "description", "price"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the product."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the product."
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the product."
+    },
+    "price": {
+      "$ref": "#/definitions/Price"
+    }
+  },
+  "definitions": {
+    "Price": {
+      "type": "object",
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "Price amount."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency (ISO 4217 format)."
+        }
+      }
+    }
+  }
+}

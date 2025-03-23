@@ -19,7 +19,7 @@ package "Entities and Aggregates" {
         - ProductId id
         - String name
         - String description
-        - Money price
+        - Price price
     }
 
     class Inventory <<Entity>> <<AggregateRoot>> {
