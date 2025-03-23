@@ -1,7 +1,7 @@
 @startuml E-commerce Domain Model Value Objects
 ' Value Objects
 package "Value Objects" {
-    class Money <<ValueObject>> {
+    class Price <<ValueObject>> {
         - BigDecimal amount
         - Currency currency
     }
@@ -16,7 +16,7 @@ package "Value Objects" {
     class OrderLine <<ValueObject>> {
         - ProductId productId
         - int quantity
-        - Money priceAtOrder
+        - Price priceAtOrder
     }
 
     class CartItem <<ValueObject>> {
