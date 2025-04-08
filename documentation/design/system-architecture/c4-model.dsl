@@ -3,17 +3,32 @@ workspace {
         customer = person "Customer" "A user of the e-commerce system"
 
         ecommerceSystem = softwareSystem "E-commerce System" "Allows customers to browse products, place orders, and manage their accounts" {
-            orderManagement = container "Order Management" "Manages the lifecycle of orders"
+
+            orderManagement = container "Order Management" "Manages the lifecycle of orders" {
+                orderAggregate = component "Order Aggregate" "Domain aggregate responsible for managing orders"
+            }
 
             productCatalog = container "Product Catalog" "Manages product information and categorization" {
                 productAggregate = component "Product Aggregate" "Domain aggregate representing a product"
             }
 
-            customerManagement = container "Customer Management" "Handles customer accounts and preferences"
-            shoppingCart = container "Shopping Cart" "Manages the customer's shopping cart"
-            inventoryManagement = container "Inventory Management" "Tracks product stock levels"
+            customerManagement = container "Customer Management" "Handles customer accounts and preferences" {
+                customerAggregate = component "Customer Aggregate" "Domain aggregate for managing customer identity and contact data"
+            }
+
+            shoppingCart = container "Shopping Cart" "Manages the customer's shopping cart" {
+                cartAggregate = component "Cart Aggregate" "Domain aggregate responsible for tracking the contents of the customer's cart"
+            }
+
+            inventoryManagement = container "Inventory Management" "Tracks product stock levels" {
+                inventoryAggregate = component "Inventory Aggregate" "Domain aggregate managing product stock"
+            }
+
             paymentProcessing = container "Payment Processing" "Handles payment transactions"
-            shipping = container "Shipping" "Manages order shipment and tracking"
+
+            shipping = container "Shipping" "Manages order shipment and tracking" {
+                shipmentAggregate = component "Shipment Aggregate" "Domain aggregate responsible for tracking shipment status"
+            }
         }
 
         paymentGateway = softwareSystem "Payment Gateway" "Processes payments for orders"
@@ -22,6 +37,11 @@ workspace {
         database = softwareSystem "Database" "Stores all e-commerce data" {
             mongoDb = container "MongoDB" "NoSQL Database" "MongoDB" {
                 productsCollection = component "Products Collection" "Stores product information"
+                ordersCollection = component "Orders Collection" "Stores order documents"
+                inventoryCollection = component "Inventory Collection" "Stores inventory quantities"
+                shipmentsCollection = component "Shipments Collection" "Stores shipment documents"
+                customersCollection = component "Customers Collection" "Stores customer account information"
+                cartsCollection = component "Carts Collection" "Stores customer shopping carts"
             }
         }
 
@@ -54,6 +74,11 @@ workspace {
 
         # Component relationships
         productAggregate -> productsCollection "Reads from and writes to"
+        orderAggregate -> ordersCollection "Reads and writes order data"
+        inventoryAggregate -> inventoryCollection "Reads and updates stock levels"
+        shipmentAggregate -> shipmentsCollection "Reads and updates shipment data"
+        customerAggregate -> customersCollection "Reads and writes customer data"
+        cartAggregate -> cartsCollection "Reads and updates cart contents"
     }
 
     views {
@@ -79,6 +104,26 @@ workspace {
 
         dynamic productCatalog "ProductComponentToMongoCollection" {
             productAggregate -> productsCollection "Reads product data"
+            autoLayout
+        }
+
+        dynamic orderManagement "OrderAggregateToOrdersCollection" {
+            orderAggregate -> ordersCollection "Persists order"
+            autoLayout
+        }
+
+        dynamic inventoryManagement "InventoryAggregateToCollection" {
+            inventoryAggregate -> inventoryCollection "Updates stock levels"
+            autoLayout
+        }
+
+        dynamic shipping "ShipmentAggregateToCollection" {
+            shipmentAggregate -> shipmentsCollection "Persists and retrieves shipment status"
+            autoLayout
+        }
+
+        dynamic customerManagement "CustomerAggregateToCollection" {
+            customerAggregate -> customersCollection "Persists and retrieves customer information"
             autoLayout
         }
 
