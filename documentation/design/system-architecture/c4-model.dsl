@@ -16,10 +16,6 @@ workspace {
                 customerAggregate = component "Customer Aggregate" "Domain aggregate for managing customer identity and contact data"
             }
 
-            shoppingCart = container "Shopping Cart" "Manages the customer's shopping cart" {
-                cartAggregate = component "Cart Aggregate" "Domain aggregate responsible for tracking the contents of the customer's cart"
-            }
-
             inventoryManagement = container "Inventory Management" "Tracks product stock levels" {
                 inventoryAggregate = component "Inventory Aggregate" "Domain aggregate managing product stock"
             }
@@ -59,13 +55,12 @@ workspace {
         # Container relationships
         customer -> orderManagement "Places orders"
         customer -> productCatalog "Browses products"
-        customer -> shoppingCart "Adds products to cart"
         customer -> customerManagement "Manages account"
 
         orderManagement -> paymentProcessing "Initiates payment"
+        orderManagement -> productCatalog "Retrieves product details"
         orderManagement -> shipping "Initiates shipment"
         productCatalog -> inventoryManagement "Checks stock levels"
-        shoppingCart -> productCatalog "Gets product information"
         orderManagement -> inventoryManagement "Updates stock levels"
 
         productCatalog -> mongoDb "Reads from and writes to"
