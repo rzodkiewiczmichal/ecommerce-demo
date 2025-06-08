@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
@@ -41,13 +40,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts(@RequestParam(required = false) List<String> ids) {
+    public ResponseEntity<List<ProductResponse>> getProducts(@RequestParam(name = "ids", required = false) List<String> ids) {
         Collection<Product> products;
         
         if (ids != null && !ids.isEmpty()) {
             List<ProductId> productIds = ids.stream()
                     .map(ProductId::new)
-                    .collect(Collectors.toList());
+                    .toList();
             products = getProductsByIdsUseCase.getProductsByIds(productIds);
         } else {
             products = listProductsUseCase.listProducts();
@@ -55,7 +54,7 @@ public class ProductController {
 
         List<ProductResponse> responses = products.stream()
                 .map(responseMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         return ResponseEntity.ok(responses);
     }

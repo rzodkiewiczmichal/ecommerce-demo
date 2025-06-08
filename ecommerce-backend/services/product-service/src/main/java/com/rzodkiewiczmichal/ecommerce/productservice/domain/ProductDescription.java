@@ -3,7 +3,7 @@ package com.rzodkiewiczmichal.ecommerce.productservice.domain;
 /**
  * Value Object representing the description of a Product.
  */
-record ProductDescription(String value) {
+public record ProductDescription(String value) {
     public ProductDescription {
         if (value == null) {
             throw new IllegalArgumentException("Product description must not be null");

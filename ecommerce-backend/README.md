@@ -5,3 +5,8 @@ Demo Project realizing basic eCommerce functionalities
 `structurizr-site-generatr serve -w documentation/design/system-architecture/c4-model-databases.dsl`
 `structurizr-site-generatr serve -w documentation/design/system-architecture/c4-model-messaging.dsl`
 `structurizr-site-generatr serve -w documentation/design/system-architecture/c4-model.dsl`
+
+
+# Local Development
+
+`docker-compose up -d`

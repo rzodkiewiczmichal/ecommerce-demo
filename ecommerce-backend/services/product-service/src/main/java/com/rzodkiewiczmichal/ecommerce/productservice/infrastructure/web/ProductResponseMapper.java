@@ -12,10 +12,10 @@ public class ProductResponseMapper {
         }
         
         return new ProductResponse(
-            product.getId().value(),
-            product.getName().value(),
-            product.getDescription().value(),
-            product.getPrice().value()
+            product.id().value(),
+            product.name().value(),
+            product.description().value(),
+            product.price().amount()
         );
     }
 }

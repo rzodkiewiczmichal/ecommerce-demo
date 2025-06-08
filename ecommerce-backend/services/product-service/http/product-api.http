@@ -1,0 +1,35 @@
+### Product Service API Tests
+
+### Variables
+@baseUrl = http://localhost:8080
+@productId = 550e8400-e29b-41d4-a716-446655440000
+
+### Get all products
+GET {{baseUrl}}/api/products
+Accept: application/json
+
+###
+
+### Get product by ID
+GET {{baseUrl}}/api/products/{{productId}}
+Accept: application/json
+
+###
+
+### Get products by IDs (multiple)
+GET {{baseUrl}}/api/products?ids=550e8400-e29b-41d4-a716-446655440000&ids=550e8400-e29b-41d4-a716-446655440001
+Accept: application/json
+
+###
+
+### Get products by IDs (single)
+GET {{baseUrl}}/api/products?ids=550e8400-e29b-41d4-a716-446655440000
+Accept: application/json
+
+###
+
+### Test non-existent product
+GET {{baseUrl}}/api/products/non-existent-id
+Accept: application/json
+
+###

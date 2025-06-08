@@ -7,6 +7,8 @@ import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductId;
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductName;
 import org.springframework.stereotype.Component;
 
+import java.util.Currency;
+
 @Component
 public class ProductMapper {
 
@@ -16,10 +18,10 @@ public class ProductMapper {
         }
         
         return new Product(
-            new ProductId(entity.getId()),
-            new ProductName(entity.getName()),
-            new ProductDescription(entity.getDescription()),
-            new Price(entity.getPrice())
+            new ProductId(entity.id()),
+            new ProductName(entity.name()),
+            new ProductDescription(entity.description()),
+            new Price(entity.price(), Currency.getInstance("USD"))
         );
     }
 
@@ -29,10 +31,10 @@ public class ProductMapper {
         }
         
         return new ProductEntity(
-            product.getId().value(),
-            product.getName().value(),
-            product.getDescription().value(),
-            product.getPrice().value()
+            product.id().value(),
+            product.name().value(),
+            product.description().value(),
+            product.price().amount()
         );
     }
 }
