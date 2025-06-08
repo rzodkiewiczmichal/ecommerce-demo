@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      database: ecommerce
+  rabbitmq:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+logging:
+  level:
+    com.rzodkiewiczmichal.ecommerce: DEBUG
+    org.springframework.data.mongodb: DEBUG
