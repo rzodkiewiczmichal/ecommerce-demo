@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: order-service
+  data:
+    mongodb:
+      uri: mongodb://admin:password@localhost:27017/ecommerce?authSource=admin
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: password
+
+app:
+  messaging:
+    order-validated:
+      exchange: order.exchange
+      routing-key: order.validated
+
+server:
+  port: 8081
