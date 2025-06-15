@@ -1,50 +1,35 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.infrastructure.persistence;
 
-import com.rzodkiewiczmichal.ecommerce.productservice.application.port.out.LoadAllProductsPort;
 import com.rzodkiewiczmichal.ecommerce.productservice.application.port.out.LoadProductByIdPort;
 import com.rzodkiewiczmichal.ecommerce.productservice.application.port.out.LoadProductsByIdsPort;
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.Product;
-import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductId;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
-public class ProductPersistenceAdapter implements LoadProductByIdPort, LoadProductsByIdsPort, LoadAllProductsPort {
+@RequiredArgsConstructor
+public class ProductPersistenceAdapter implements LoadProductByIdPort, LoadProductsByIdsPort {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    public ProductPersistenceAdapter(ProductRepository productRepository, ProductMapper productMapper) {
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
-    }
-
     @Override
-    public Optional<Product> loadProductById(ProductId productId) {
+    public Optional<Product> loadById(ProductId productId) {
         return productRepository.findById(productId.value())
                 .map(productMapper::toDomain);
     }
 
     @Override
-    public Collection<Product> loadProductsByIds(Collection<ProductId> productIds) {
-        Collection<String> stringIds = productIds.stream()
+    public List<Product> loadByIds(List<ProductId> productIds) {
+        List<String> ids = productIds.stream()
                 .map(ProductId::value)
-                .collect(Collectors.toList());
-        
-        return productRepository.findByIdIn(stringIds)
-                .stream()
+                .toList();
+        return productRepository.findAllById(ids).stream()
                 .map(productMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Collection<Product> loadAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(productMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

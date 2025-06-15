@@ -1,9 +1,8 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.application.port.in;
 
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.Product;
-import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductId;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,5 +14,5 @@ public interface GetProductsByIdsUseCase {
      * @param productIds the list of product IDs to fetch
      * @return list of matching products (may be empty if none found)
      */
-    Collection<Product> getProductsByIds(List<ProductId> productIds);
+    List<Product> getProductsByIds(List<ProductId> productIds);
 }

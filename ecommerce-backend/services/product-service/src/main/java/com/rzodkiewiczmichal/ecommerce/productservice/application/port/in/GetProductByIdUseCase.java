@@ -1,7 +1,7 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.application.port.in;
 
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.Product;
-import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductId;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 import java.util.Optional;
 
 /**

@@ -1,27 +1,20 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.domain;
 
+import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
+import jakarta.validation.constraints.NotNull;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.validation.ValidationUtils;
+
 /**
  * Aggregate root for Product in the domain model.
  * Represents a product entity and its invariants within the product service.
  */
 public record Product(
-        ProductId id,
-        ProductName name,
-        ProductDescription description,
-        Price price
+        @NotNull ProductId id,
+        @NotNull ProductName name,
+        @NotNull ProductDescription description,
+        @NotNull Price price
 ) {
     public Product {
-        if (id == null) {
-            throw new IllegalArgumentException("id must not be null");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("name must not be null");
-        }
-        if (description == null) {
-            throw new IllegalArgumentException("description must not be null");
-        }
-        if (price == null) {
-            throw new IllegalArgumentException("price must not be null");
-        }
+        ValidationUtils.validate(this);
     }
 }

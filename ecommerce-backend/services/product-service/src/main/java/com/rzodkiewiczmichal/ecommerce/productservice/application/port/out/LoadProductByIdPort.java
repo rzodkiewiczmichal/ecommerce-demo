@@ -1,7 +1,7 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.application.port.out;
 
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.Product;
-import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductId;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 
 import java.util.Optional;
 
@@ -14,5 +14,5 @@ public interface LoadProductByIdPort {
      * @param productId the ID of the product to load
      * @return an Optional containing the product if found, otherwise empty
      */
-    Optional<Product> loadProductById(ProductId productId);
+    Optional<Product> loadById(ProductId productId);
 }
