@@ -27,7 +27,7 @@ public class PlaceOrderService implements PlaceOrderUseCase {
 
         Order order = Order.create(command);
         Order savedOrder = saveOrderPort.save(order);
-        eventPublisher.publishOrderCreated(savedOrder);
+        eventPublisher.publishOrderValidated(savedOrder);
         return savedOrder;
     }
 } 
