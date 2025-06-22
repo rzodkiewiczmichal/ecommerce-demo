@@ -1,0 +1,38 @@
+### Create Order - Test Request
+POST http://localhost:8081/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "customer-123",
+  "items": [
+    {
+      "productId": "product-456",
+      "quantity": 2
+    },
+    {
+      "productId": "product-789", 
+      "quantity": 1
+    }
+  ],
+  "deliveryDetails": {
+    "name": "John Doe",
+    "address": "123 Main Street",
+    "city": "New York",
+    "postalCode": "10001",
+    "country": "USA",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-123-4567"
+  }
+}
+
+### Test with missing required fields (should fail validation)
+POST http://localhost:8081/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "",
+  "items": [],
+  "deliveryDetails": {
+    "address": "123 Main Street"
+  }
+}
