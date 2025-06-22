@@ -10,7 +10,6 @@ import com.rzodkiewiczmichal.ecommerce.shared.domain.OrderId;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 
 @Component

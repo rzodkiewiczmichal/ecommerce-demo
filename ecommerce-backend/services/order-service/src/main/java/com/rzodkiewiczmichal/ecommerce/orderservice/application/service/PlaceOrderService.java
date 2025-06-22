@@ -5,7 +5,6 @@ import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.LoadPro
 import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.OrderEventPublisher;
 import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.SaveOrderPort;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.Order;
-import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderStatus;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderTotal;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderValidationService;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.PlaceOrderCommand;
