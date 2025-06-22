@@ -5,8 +5,11 @@ import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.LoadPro
 import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.OrderEventPublisher;
 import com.rzodkiewiczmichal.ecommerce.orderservice.application.port.out.SaveOrderPort;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.Order;
+import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderStatus;
+import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderTotal;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderValidationService;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.PlaceOrderCommand;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.OrderId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +28,18 @@ public class PlaceOrderService implements PlaceOrderUseCase {
         OrderValidationService validationService = new OrderValidationService(loadProductPort);
         validationService.validateOrder(command);
 
-        Order order = Order.create(command);
+        OrderTotal orderTotal = OrderTotal.calculate(
+            command.items(), 
+            item -> loadProductPort.loadById(item.productId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found: " + item.productId()))
+        );
+        Order order = new Order(
+            OrderId.generate(),
+            command.customerId(),
+            command.items(),
+            command.deliveryDetails(),
+            orderTotal.amount()
+        );
         Order savedOrder = saveOrderPort.save(order);
         eventPublisher.publishOrderValidated(savedOrder);
         return savedOrder;

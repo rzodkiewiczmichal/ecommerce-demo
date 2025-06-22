@@ -6,6 +6,8 @@ import com.rzodkiewiczmichal.ecommerce.shared.domain.Money;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.Optional;
 
 /**
@@ -21,7 +23,7 @@ public class StubProductAdapter implements LoadProductPort {
         return Optional.of(new Product(
             productId,
             "Test Product " + productId.value(),
-            Money.of(29.99, "USD"),
+            new Money(new BigDecimal("29.99"), Currency.getInstance("USD")),
             true // available
         ));
     }

@@ -25,21 +25,6 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public static Order create(PlaceOrderCommand command) {
-        return new Order(
-            OrderId.generate(),
-            command.customerId(),
-            command.items(),
-            command.deliveryDetails(),
-            calculateTotal(command.items())
-        );
-    }
-
-    private static Money calculateTotal(List<OrderItem> items) {
-        // TODO: Implement total calculation based on product prices
-        return Money.zero("USD");
-    }
-
     public void markAsValidated() {
         this.status = OrderStatus.VALIDATED;
     }

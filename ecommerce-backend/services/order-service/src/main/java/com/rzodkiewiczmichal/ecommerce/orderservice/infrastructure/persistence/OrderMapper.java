@@ -2,6 +2,7 @@ package com.rzodkiewiczmichal.ecommerce.orderservice.infrastructure.persistence;
 
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.Order;
 import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderItem;
+import com.rzodkiewiczmichal.ecommerce.orderservice.domain.OrderStatus;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.CustomerId;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.DeliveryDetails;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.Money;
@@ -10,6 +11,7 @@ import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
 @Component
 public class OrderMapper {
@@ -23,21 +25,31 @@ public class OrderMapper {
                 .toList(),
             toDeliveryDetailsEntity(order.getDeliveryDetails()),
             order.getStatus().name(),
-            BigDecimal.valueOf(order.getTotalAmount().amount()),
-            order.getTotalAmount().currency()
+            order.getTotalAmount().amount(),
+            order.getTotalAmount().currency().getCurrencyCode()
         );
     }
 
     public Order toDomain(OrderEntity entity) {
-        return new Order(
+        Order order = new Order(
             new OrderId(entity.id()),
             new CustomerId(entity.customerId()),
             entity.items().stream()
                 .map(this::toOrderItemDomain)
                 .toList(),
             toDeliveryDetailsDomain(entity.deliveryDetails()),
-            new Money(entity.totalAmount().doubleValue(), entity.currency())
+            new Money(entity.totalAmount(), Currency.getInstance(entity.currency()))
         );
+        
+        // Set the status from persistence
+        OrderStatus status = OrderStatus.valueOf(entity.status());
+        if (status == OrderStatus.VALIDATED) {
+            order.markAsValidated();
+        } else if (status == OrderStatus.INVALID) {
+            order.markAsInvalid();
+        }
+        
+        return order;
     }
 
     private OrderEntity.OrderItemEntity toOrderItemEntity(OrderItem item) {

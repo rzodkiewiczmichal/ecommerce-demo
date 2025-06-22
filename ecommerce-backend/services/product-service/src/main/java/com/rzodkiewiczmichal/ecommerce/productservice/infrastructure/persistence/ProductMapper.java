@@ -1,6 +1,6 @@
 package com.rzodkiewiczmichal.ecommerce.productservice.infrastructure.persistence;
 
-import com.rzodkiewiczmichal.ecommerce.productservice.domain.Price;
+import com.rzodkiewiczmichal.ecommerce.shared.domain.Money;
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.Product;
 import com.rzodkiewiczmichal.ecommerce.productservice.domain.ProductDescription;
 import com.rzodkiewiczmichal.ecommerce.shared.domain.ProductId;
@@ -21,7 +21,7 @@ public class ProductMapper {
             new ProductId(entity.id()),
             new ProductName(entity.name()),
             new ProductDescription(entity.description()),
-            new Price(entity.price(), Currency.getInstance("USD"))
+            new Money(entity.price(), Currency.getInstance("USD"))
         );
     }
 
